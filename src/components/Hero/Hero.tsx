@@ -53,10 +53,19 @@ const Hero = ({ works }: Props) => {
         }
 
         // Setup GLSL Dummy Windows
-        setGlslItems(glslConfigs.map((config, i) => ({
-            config,
-            style: { ...glslLayouts[i], animationDelay: `${i * 1.2 + 1}s` }
-        })));
+        setGlslItems(glslConfigs.map((config, i) => {
+            const randomWidth = Math.floor(Math.random() * (400 - 250 + 1)) + 250;
+            const randomHeight = Math.floor(Math.random() * (400 - 250 + 1)) + 250;
+            return {
+                config,
+                style: {
+                    ...glslLayouts[i],
+                    animationDelay: `${i * 1.2 + 1}s`,
+                    width: `${randomWidth}px`,
+                    height: `${randomHeight}px`
+                }
+            };
+        }));
 
     }, [works]);
 
@@ -81,14 +90,12 @@ const Hero = ({ works }: Props) => {
                         style={{
                             position: 'relative',
                             top: 'auto', left: 'auto',
+                            width: item.style.width,
                             animationDelay: item.style.animationDelay as string,
                             margin: 0
                         }}
                     >
-                        <div className={styles.fwHeader}>
-                            <span className={styles.fwHeaderL}>+ {item.config.id}</span>
-                        </div>
-                        <div style={{ width: '100%', height: '150px', background: '#000', overflow: 'hidden', borderRadius: '0 0 12px 12px' }}>
+                        <div className={styles.fwContent} style={{ height: item.style.height, overflow: 'hidden', borderRadius: '20px', borderTop: 'none' }}>
                             <GLSLCanvas fragmentShader={item.config.shader} />
                         </div>
                     </div>
