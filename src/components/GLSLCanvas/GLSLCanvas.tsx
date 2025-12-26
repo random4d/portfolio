@@ -4,17 +4,27 @@ import { useEffect, useRef } from 'react';
 
 type Props = {
     fragmentShader: string;
+    blendMode?: 'normal' | 'additive';
 };
 
-const GLSLCanvas = ({ fragmentShader }: Props) => {
+const GLSLCanvas = ({ fragmentShader, blendMode = 'normal' }: Props) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
     useEffect(() => {
         const canvas = canvasRef.current;
         if (!canvas) return;
 
-        const gl = canvas.getContext('webgl');
+        const gl = canvas.getContext('webgl', {
+            alpha: blendMode === 'additive',
+            premultipliedAlpha: false
+        });
         if (!gl) return;
+
+        // Enable blending for additive mode
+        if (blendMode === 'additive') {
+            gl.enable(gl.BLEND);
+            gl.blendFunc(gl.SRC_ALPHA, gl.ONE); // Additive blending
+        }
 
         // Vertex Shader (Simple full-screen quad)
         const vsSource = `
@@ -91,7 +101,7 @@ const GLSLCanvas = ({ fragmentShader }: Props) => {
             gl.deleteShader(fs);
             gl.deleteBuffer(buffer);
         };
-    }, [fragmentShader]);
+    }, [fragmentShader, blendMode]);
 
     return <canvas ref={canvasRef} style={{ width: '100%', height: '100%', display: 'block' }} />;
 };

@@ -211,6 +211,15 @@
     border-top: 1px solid #fff;
 }
 
+/* Additive blend mode for matrix/GLSL windows */
+.fwContentAdditive {
+    width: 100%;
+    background: transparent;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    mix-blend-mode: screen;
+    /* Additive-like blend */
+}
+
 .fwThumbnail {
     width: 100%;
     height: 150px;

@@ -95,8 +95,14 @@ const Hero = ({ works }: Props) => {
                             margin: 0
                         }}
                     >
-                        <div className={styles.fwContent} style={{ height: item.style.height, overflow: 'hidden', borderRadius: '20px', borderTop: 'none' }}>
-                            <GLSLCanvas fragmentShader={item.config.shader} />
+                        <div
+                            className={item.config.id === 'MTX_FLOW' ? styles.fwContentAdditive : styles.fwContent}
+                            style={{ height: item.style.height, overflow: 'hidden', borderRadius: '20px', borderTop: 'none' }}
+                        >
+                            <GLSLCanvas
+                                fragmentShader={item.config.shader}
+                                blendMode={item.config.id === 'MTX_FLOW' ? 'additive' : 'normal'}
+                            />
                         </div>
                     </div>
                 </DraggableWindow>

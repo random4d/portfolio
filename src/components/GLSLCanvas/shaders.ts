@@ -159,8 +159,11 @@ export const shaders = {
         
         float bright = step(0.95, 1.0 - abs(fpos.y - drop));
         vec3 color = vec3(0.0, bright, 0.0);
+        
+        // Alpha based on brightness for additive blending
+        float alpha = bright;
 
-        gl_FragColor = vec4(color, 1.0);
+        gl_FragColor = vec4(color, alpha);
     }
   `,
 
