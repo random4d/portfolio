@@ -6,7 +6,7 @@
 
 .tagFilter {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 1rem;
     margin-bottom: 3rem;
     flex-wrap: wrap;
@@ -18,10 +18,10 @@
     padding: 0.5rem 1.5rem;
     background: transparent;
     border: 1px solid var(--border-color);
+    border-radius: 20px;
     color: #888;
     cursor: pointer;
     transition: all 0.3s ease;
-    text-transform: lowercase;
 }
 
 .filterButton:hover {

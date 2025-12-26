@@ -21,10 +21,10 @@ const Header = () => {
             <div className="container">
                 <nav className={styles.nav}>
                     <div className={styles.links}>
-                        <Link href="/" className={styles.link}>top</Link>
-                        <Link href="/about" className={styles.link}>about</Link>
-                        <Link href="/works" className={styles.link}>works</Link>
-                        <Link href="/contact" className={styles.link}>contact</Link>
+                        <Link href="/" className={styles.link}>Top</Link>
+                        <Link href="/about" className={styles.link}>About</Link>
+                        <Link href="/works" className={styles.link}>Works</Link>
+                        <Link href="/contact" className={styles.link}>Contact</Link>
                     </div>
                 </nav>
             </div>

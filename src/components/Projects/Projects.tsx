@@ -17,7 +17,7 @@ const Projects = ({ projects }: Props) => {
     // Filter projects by selected tag
     const filteredProjects = useMemo(() => {
         return projects.filter(project =>
-            project.tags?.some(tag => tag.name.toLowerCase() === selectedTag)
+            project.tags?.some(tag => tag.name.toLowerCase() === selectedTag.toLowerCase())
         );
     }, [projects, selectedTag]);
 

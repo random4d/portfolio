@@ -6,14 +6,14 @@
     padding: 1.5rem 0;
     z-index: 1000;
     transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
-    background: rgba(5, 5, 5, 0.5);
+    /* backdrop-filter: blur(2px); */
+    background: rgba(0, 0, 0, 0);
     border-bottom: 1px solid transparent;
 }
 
 .header.scrolled {
     padding: 1rem 0;
-    background: rgba(5, 5, 5, 0.85);
+    background: rgba(0, 0, 0, 0);
     border-bottom: 1px solid var(--border-color);
 }
 
@@ -44,7 +44,6 @@
     /* Regular */
     color: var(--accent-color);
     position: relative;
-    text-transform: lowercase;
     letter-spacing: 0.05em;
 }
 

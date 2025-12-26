@@ -61,8 +61,8 @@ body {
   pointer-events: none;
   z-index: 1;
   /* On top of grid, but still within z-index: -1 parent context */
-  background: radial-gradient(circle at center, transparent 0%, var(--bg-color) 90%);
-  opacity: 0.8;
+  background: radial-gradient(circle at center, transparent 0%, var(--bg-color) 100%);
+  opacity: 0.5;
 }
 
 /* Global Noise Overlay */
