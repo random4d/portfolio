@@ -1,17 +1,30 @@
+'use client';
+
+import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import styles from './Projects.module.css';
-import { Work } from '@/types/microcms';
+import { Work, Tag } from '@/types/microcms';
 
 type Props = {
     projects: Work[];
 };
 
+const FIXED_TAGS = ['featured', 'media_art', 'VJ'];
+
 const Projects = ({ projects }: Props) => {
+    const [selectedTag, setSelectedTag] = useState<string>('featured');
+
+    // Filter projects by selected tag
+    const filteredProjects = useMemo(() => {
+        return projects.filter(project =>
+            project.tags?.some(tag => tag.name.toLowerCase() === selectedTag)
+        );
+    }, [projects, selectedTag]);
+
     if (!projects || projects.length === 0) {
         return (
             <section id="projects" className={styles.projects}>
                 <div className="container">
-                    <h2 className={styles.title}>FEATURED_WORKS</h2>
                     <p style={{ textAlign: 'center', color: '#888', fontFamily: 'var(--font-mono)' }}>NO_DATA_FOUND</p>
                 </div>
             </section>
@@ -21,9 +34,21 @@ const Projects = ({ projects }: Props) => {
     return (
         <section id="projects" className={styles.projects}>
             <div className="container">
-                <h2 className={styles.title}>FEATURED_WORKS</h2>
+                {/* Tag Filter */}
+                <div className={styles.tagFilter}>
+                    {FIXED_TAGS.map(tagName => (
+                        <button
+                            key={tagName}
+                            className={`${styles.filterButton} ${selectedTag === tagName ? styles.active : ''}`}
+                            onClick={() => setSelectedTag(tagName)}
+                        >
+                            {tagName}
+                        </button>
+                    ))}
+                </div>
+
                 <div className={styles.grid}>
-                    {projects.map((project) => (
+                    {filteredProjects.map((project) => (
                         <Link href={`/works/${project.title}`} key={project.id} className={styles.card}>
                             <article style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                                 <div className={styles.image}>
@@ -41,7 +66,6 @@ const Projects = ({ projects }: Props) => {
                                 <div className={styles.content}>
                                     <div className={styles.cardHeader}>
                                         <h3 className={styles.cardTitle}>{project.title}</h3>
-                                        <span className={styles.id}>ID_{project.id.slice(0, 6)}</span>
                                     </div>
 
                                     <div className={styles.footer}>
@@ -56,6 +80,12 @@ const Projects = ({ projects }: Props) => {
                         </Link>
                     ))}
                 </div>
+
+                {filteredProjects.length === 0 && (
+                    <p style={{ textAlign: 'center', color: '#888', fontFamily: 'var(--font-mono)', marginTop: '2rem' }}>
+                        NO_ITEMS_WITH_TAG
+                    </p>
+                )}
             </div>
         </section>
     );

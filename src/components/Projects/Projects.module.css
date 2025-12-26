@@ -4,38 +4,59 @@
     position: relative;
 }
 
-.title {
-    font-size: 3rem;
-    margin-bottom: 4rem;
-    color: var(--text-color);
-    text-align: center;
-    position: relative;
-    display: inline-block;
-    left: 50%;
-    transform: translateX(-50%);
+.tagFilter {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
 }
 
-.title::before {
-    content: "ARCHIVE_LOG";
-    position: absolute;
-    top: -1.5rem;
-    left: 50%;
-    transform: translateX(-50%);
+.filterButton {
     font-family: var(--font-mono);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+    padding: 0.5rem 1.5rem;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: #888;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: lowercase;
+}
+
+.filterButton:hover {
+    border-color: var(--accent-color);
     color: var(--accent-color);
-    letter-spacing: 0.1em;
+}
+
+.filterButton.active {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    color: #000;
 }
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 3rem;
+}
+
+@media (max-width: 1200px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 .card {
     background: rgba(255, 255, 255, 0.02);
     border: 1px solid var(--border-color);
+    border-radius: 20px;
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
