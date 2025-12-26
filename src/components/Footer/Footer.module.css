@@ -1,0 +1,34 @@
+.footer {
+    padding: 4rem 0 2rem;
+    background: var(--secondary-bg);
+    color: #888;
+    font-size: 0.9rem;
+    text-align: center;
+    border-top: 1px solid var(--border-color);
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.socials {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.socialLink {
+    color: var(--text-color);
+    transition: color 0.3s ease;
+}
+
+.socialLink:hover {
+    color: var(--accent-color);
+}
+
+.copyright {
+    margin-top: 2rem;
+    opacity: 0.6;
+}
