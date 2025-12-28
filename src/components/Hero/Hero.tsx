@@ -12,28 +12,19 @@ type Props = {
     works: Work[];
 };
 
+const glslConfigs = [
+    { id: 'SYS_NOISE', shader: shaders.noise, title: 'SYSTEM_NOISE' },
+    { id: 'SCN_LINE', shader: shaders.scanline, title: 'SCAN_MONITOR' },
+    { id: 'MTX_FLOW', shader: shaders.matrix, title: 'DATA_FLOW' },
+    { id: 'PLSM_CORE', shader: shaders.plasma, title: 'CORE_TEMP' },
+];
+
 const Hero = ({ works }: Props) => {
     const [worksItems, setWorksItems] = useState<{ work: Work; style: React.CSSProperties }[]>([]);
     const [glslItems, setGlslItems] = useState<{ config: typeof glslConfigs[0]; style: React.CSSProperties }[]>([]);
 
-    const glslConfigs = [
-        { id: 'SYS_NOISE', shader: shaders.noise, title: 'SYSTEM_NOISE' },
-        { id: 'SCN_LINE', shader: shaders.scanline, title: 'SCAN_MONITOR' },
-        { id: 'MTX_FLOW', shader: shaders.matrix, title: 'DATA_FLOW' },
-        { id: 'PLSM_CORE', shader: shaders.plasma, title: 'CORE_TEMP' },
-    ];
-
     useEffect(() => {
-        // Curated scattered positions specific for 100vh canvas
-        // "Designed Chaos" - fixed positions to ensure good composition
-
-        // 3 Positions for Works (High visibility areas - Centered)
-        const workLayouts = [
-            { top: '20%', left: '20%', zIndex: 10 },  // Top Left (More centered)
-            { top: '50%', left: '55%', zIndex: 10 },  // Bottom Rightish (More centered)
-            { top: '30%', left: '60%', zIndex: 10 },  // Top Right (More centered)
-        ];
-
+        // Setup GLSL Dummy Windows (runs once)
         // 4 Positions for GLSL (Background/Filler areas - Centered)
         const glslLayouts = [
             { top: '60%', left: '25%', zIndex: 5 },   // Bottom Left (More centered)
@@ -42,17 +33,6 @@ const Hero = ({ works }: Props) => {
             { top: '65%', left: '65%', zIndex: 5 },   // Bottom Right corner (More centered)
         ];
 
-        // Setup Works
-        if (works && works.length > 0) {
-            // Randomly pick which work goes to which fixed slot
-            const shuffledWorks = [...works].sort(() => 0.5 - Math.random()).slice(0, 3);
-            setWorksItems(shuffledWorks.map((work, i) => ({
-                work,
-                style: { ...workLayouts[i], animationDelay: `${i * 1.5}s` }
-            })));
-        }
-
-        // Setup GLSL Dummy Windows
         setGlslItems(glslConfigs.map((config, i) => {
             const randomWidth = Math.floor(Math.random() * (400 - 250 + 1)) + 250;
             const randomHeight = Math.floor(Math.random() * (400 - 250 + 1)) + 250;
@@ -66,7 +46,26 @@ const Hero = ({ works }: Props) => {
                 }
             };
         }));
+    }, []);
 
+    useEffect(() => {
+        // Setup Works
+        if (works && works.length > 0) {
+            // 3 Positions for Works (High visibility areas - Centered)
+            const workLayouts = [
+                { top: '20%', left: '20%', zIndex: 10 },  // Top Left (More centered)
+                { top: '50%', left: '55%', zIndex: 10 },  // Bottom Rightish (More centered)
+                { top: '30%', left: '60%', zIndex: 10 },  // Top Right (More centered)
+            ];
+
+            // Randomly pick which work goes to which fixed slot
+            const shuffledWorks = [...works].sort(() => 0.5 - Math.random()).slice(0, 3);
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+            setWorksItems(shuffledWorks.map((work, i) => ({
+                work,
+                style: { ...workLayouts[i], animationDelay: `${i * 1.5}s` }
+            })));
+        }
     }, [works]);
 
     return (
@@ -78,11 +77,6 @@ const Hero = ({ works }: Props) => {
                     initialTop={item.style.top as string}
                     initialLeft={item.style.left as string}
                     zIndex={item.style.zIndex as number}
-                // Passing className allows DraggableWindow to behave as the container, 
-                // but we need the inner styling.
-                // Let's NOT pass className to DraggableWindow to keep it invisible wrapper?
-                // Actually, the current styles.floatingWindow has position:absolute.
-                // If we put it INSIDE, we must override its position to relative/static.
                 >
                     {/* GLSL Window */}
                     <div

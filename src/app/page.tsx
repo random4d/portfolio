@@ -7,12 +7,16 @@ export const revalidate = 60;
 export default async function Home() {
   const data = await client.getList<Work>({
     endpoint: 'works',
-    queries: { limit: 10 } // Fetch up to 10 latest works for randomness
+    queries: { limit: 30 }
   });
+
+  const featuredWorks = data.contents.filter(work =>
+    work.tags?.some(tag => tag.name === 'featured')
+  );
 
   return (
     <main>
-      <Hero works={data.contents} />
+      <Hero works={featuredWorks} />
     </main>
   );
 }

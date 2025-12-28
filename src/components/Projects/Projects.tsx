@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import Link from 'next/link';
+import { useSearchParams, useRouter } from 'next/navigation';
 import styles from './Projects.module.css';
 import { Work, Tag } from '@/types/microcms';
 
@@ -12,14 +13,35 @@ type Props = {
 const FIXED_TAGS = ['featured', 'media_art', 'VJ'];
 
 const Projects = ({ projects }: Props) => {
-    const [selectedTag, setSelectedTag] = useState<string>('featured');
+    const searchParams = useSearchParams();
+    const router = useRouter();
 
-    // Filter projects by selected tag
+    // Derived state from URL
+    // Rule:
+    // - ?tag=all -> Show ALL
+    // - ?tag=featured -> Show Featured
+    // - ?tag=VJ -> Show VJ
+    // - (no tag) -> Default to Featured
+    const tagParam = searchParams.get('tag');
+
+    // Determine the "effective" filter tag.
+    // If 'all', we want NO filter (null).
+    // If missing, we want 'featured'.
+    // Otherwise, use the tag.
+    const effectiveFilterTag = tagParam === 'all' ? null : (tagParam || 'featured');
+
+    // Filter projects by effective tag
     const filteredProjects = useMemo(() => {
+        if (!effectiveFilterTag) return projects; // Show all
         return projects.filter(project =>
-            project.tags?.some(tag => tag.name.toLowerCase() === selectedTag.toLowerCase())
+            project.tags?.some(tag => tag.name.toLowerCase() === effectiveFilterTag.toLowerCase())
         );
-    }, [projects, selectedTag]);
+    }, [projects, effectiveFilterTag]);
+
+    const handleTagClick = (tagName: string) => {
+        // Update URL
+        router.push(`/works?tag=${tagName}`, { scroll: false });
+    };
 
     if (!projects || projects.length === 0) {
         return (
@@ -36,11 +58,17 @@ const Projects = ({ projects }: Props) => {
             <div className="container">
                 {/* Tag Filter */}
                 <div className={styles.tagFilter}>
+                    <button
+                        className={`${styles.filterButton} ${tagParam === 'all' ? styles.active : ''}`}
+                        onClick={() => handleTagClick('all')}
+                    >
+                        ALL
+                    </button>
                     {FIXED_TAGS.map(tagName => (
                         <button
                             key={tagName}
-                            className={`${styles.filterButton} ${selectedTag === tagName ? styles.active : ''}`}
-                            onClick={() => setSelectedTag(tagName)}
+                            className={`${styles.filterButton} ${effectiveFilterTag === tagName && tagParam !== 'all' ? styles.active : ''}`}
+                            onClick={() => handleTagClick(tagName)}
                         >
                             {tagName}
                         </button>

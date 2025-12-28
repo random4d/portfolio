@@ -1,17 +1,31 @@
 import AboutComponent from '@/components/About/About';
 import { client } from '@/libs/client';
-import { About } from '@/types/microcms';
+import { About, Performance, Exhibition } from '@/types/microcms';
 
 export const revalidate = 60;
 
 export default async function AboutPage() {
-    const data = await client.getObject<About>({
+    const aboutData = await client.getObject<About>({
         endpoint: 'about',
+    });
+
+    const exhibitionData = await client.getList<Exhibition>({
+        endpoint: 'exhibition',
+        queries: { limit: 100 }
+    });
+
+    const performanceData = await client.getList<Performance>({
+        endpoint: 'performance',
+        queries: { limit: 100 }
     });
 
     return (
         <main>
-            <AboutComponent data={data} />
+            <AboutComponent
+                data={aboutData}
+                exhibitions={exhibitionData.contents}
+                performances={performanceData.contents}
+            />
         </main>
     );
 }

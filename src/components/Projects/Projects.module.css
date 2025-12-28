@@ -100,17 +100,7 @@
 }
 
 /* Glitch effect overlay on hover */
-.image::after {
-    content: 'NO_SIGNAL';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-family: var(--font-mono);
-    color: #333;
-    letter-spacing: 0.2em;
-    opacity: 0.5;
-}
+
 
 .content {
     padding: 2rem;

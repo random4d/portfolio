@@ -1,5 +1,6 @@
 import { client } from '@/libs/client';
 import { Work } from '@/types/microcms';
+import Link from 'next/link';
 import styles from './page.module.css';
 import { notFound } from 'next/navigation';
 
@@ -40,7 +41,9 @@ export default async function WorkPage({ params }: Props) {
                     <h1 className={styles.title}>{work.title}</h1>
                     <div className={styles.tags}>
                         {work.tags && work.tags.map(tag => (
-                            <span key={tag.id} className={styles.tag}>{tag.name}</span>
+                            <Link key={tag.id} href={`/works?tag=${tag.name}`} className={styles.tag}>
+                                {tag.name}
+                            </Link>
                         ))}
                     </div>
                 </header>

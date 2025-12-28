@@ -16,4 +16,24 @@ export type Work = {
 
 export type About = {
     content: string;
+    content2?: string;
+} & MicroCMSDate;
+
+export type Performance = {
+    id: string;
+    fieldId: 'performance';
+    event_date: string;
+    event_title: string;
+    description: string;
+    event_link?: string;
+    works_link?: Work;
+} & MicroCMSDate;
+
+export type Exhibition = {
+    id: string;
+    start_date: string;
+    end_date?: string;
+    exhibition_title: string;
+    exhibition_link?: string;
+    works_link?: Work;
 } & MicroCMSDate;
