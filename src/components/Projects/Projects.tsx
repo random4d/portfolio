@@ -83,9 +83,10 @@ const Projects = ({ projects }: Props) => {
                                     {project.thumbnail ? (
                                         /* eslint-disable-next-line @next/next/no-img-element */
                                         <img
-                                            src={project.thumbnail.url}
+                                            src={`${project.thumbnail.url}?w=600&fm=webp&q=80`}
                                             alt={project.title}
                                             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                            loading="lazy"
                                         />
                                     ) : (
                                         <div style={{ width: '100%', height: '100%', background: '#222', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#444', fontFamily: 'var(--font-mono)' }}>NO_IMG</div>

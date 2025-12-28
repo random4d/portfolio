@@ -129,9 +129,10 @@ const Hero = ({ works }: Props) => {
                             {item.work.thumbnail?.url ? (
                                 /* eslint-disable-next-line @next/next/no-img-element */
                                 <img
-                                    src={item.work.thumbnail.url}
+                                    src={`${item.work.thumbnail.url}?w=400&fm=webp&q=80`}
                                     alt={item.work.title}
                                     className={styles.thumbImage}
+                                    loading="lazy"
                                 />
                             ) : (
                                 <div className={styles.noImage}>

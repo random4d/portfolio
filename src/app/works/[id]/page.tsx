@@ -50,7 +50,12 @@ export default async function WorkPage({ params }: Props) {
 
                 <div className={styles.thumbnailWrapper}>
                     {work.thumbnail && (
-                        <img src={work.thumbnail.url} alt={work.title} className={styles.thumbnail} />
+                        /* eslint-disable-next-line @next/next/no-img-element */
+                        <img
+                            src={`${work.thumbnail.url}?w=1200&fm=webp&q=85`}
+                            alt={work.title}
+                            className={styles.thumbnail}
+                        />
                     )}
                 </div>
 
