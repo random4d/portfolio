@@ -18,7 +18,7 @@
 }
 
 .text {
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: #bbb;
     line-height: 1.8;
 }
@@ -60,6 +60,8 @@
 
 .text p {
     margin-bottom: 1.5rem;
+    padding-left: 40px;
+    line-height: 1.6;
 }
 
 .text a {
