@@ -98,8 +98,6 @@ a {
   color: var(--accent-color);
   text-decoration: none;
   transition: all 0.2s ease;
-  padding: 0.1em 0.2em;
-  border-radius: 2px;
 }
 
 a:hover {

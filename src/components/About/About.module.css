@@ -191,3 +191,9 @@
         gap: 0.5rem;
     }
 }
+
+.dateText {
+    font-family: var(--font-menu);
+    font-variant-numeric: tabular-nums;
+    margin-right: 1rem;
+}

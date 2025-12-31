@@ -51,13 +51,13 @@ const About = ({ data, exhibitions, performances }: Props) => {
                         <ul className={styles.legacyList}>
                             {safeExhibitions.map((exh) => (
                                 <li key={exh.id} style={{ marginBottom: '0.5rem', listStyle: 'none', display: 'block' }}>
-                                    <span style={{ color: 'var(--accent-color)', fontFamily: 'var(--font-mono)', marginRight: '1rem' }}>
+                                    <span className={styles.dateText}>
                                         {formatDate(exh.start_date)}
                                         {exh.end_date && ` - ${formatDate(exh.end_date)}`}
                                     </span>
-                                    <span style={{ fontWeight: 'bold', marginRight: '1rem' }}>
+                                    <span style={{ marginRight: '1rem' }}>
                                         {exh.exhibition_link ? (
-                                            <a href={exh.exhibition_link} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline' }}>
+                                            <a href={exh.exhibition_link} target="_blank" rel="noopener noreferrer">
                                                 {exh.exhibition_title}
                                             </a>
                                         ) : (
@@ -82,12 +82,12 @@ const About = ({ data, exhibitions, performances }: Props) => {
                         <ul className={styles.legacyList}>
                             {safePerformances.map((perf) => (
                                 <li key={perf.id} style={{ marginBottom: '0.5rem', listStyle: 'none', display: 'block' }}>
-                                    <span style={{ color: 'var(--accent-color)', fontFamily: 'var(--font-mono)', marginRight: '1rem' }}>
+                                    <span className={styles.dateText}>
                                         {formatDate(perf.event_date)}
                                     </span>
-                                    <span style={{ fontWeight: 'bold', marginRight: '1rem' }}>
+                                    <span style={{ marginRight: '1rem' }}>
                                         {perf.event_link ? (
-                                            <a href={perf.event_link} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline' }}>
+                                            <a href={perf.event_link} target="_blank" rel="noopener noreferrer">
                                                 {perf.event_title}
                                             </a>
                                         ) : (
