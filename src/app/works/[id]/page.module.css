@@ -114,3 +114,47 @@
     border-radius: 4px;
     margin: 2rem 0;
 }
+
+@media (max-width: 768px) {
+    .article {
+        padding-top: 5rem;
+        padding-bottom: 2rem;
+    }
+
+    .header {
+        margin-bottom: 2rem;
+        padding-bottom: 1.5rem;
+    }
+
+    .title {
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+    }
+
+    .meta {
+        font-size: 0.8rem;
+        flex-wrap: wrap;
+    }
+
+    .tags {
+        flex-wrap: wrap;
+    }
+
+    .thumbnailWrapper {
+        margin-bottom: 2rem;
+        max-height: 300px;
+    }
+
+    .content {
+        padding: 0 0.5rem;
+    }
+
+    .content h2 {
+        font-size: 1.4rem;
+        margin-top: 2rem;
+    }
+
+    .content h3 {
+        font-size: 1.2rem;
+    }
+}

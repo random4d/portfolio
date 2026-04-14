@@ -285,9 +285,14 @@
 }
 
 @media (max-width: 900px) {
+    .hero {
+        padding-top: 3rem;
+    }
+
     .content {
         grid-template-columns: 1fr;
         text-align: center;
+        padding: 0 1rem;
     }
 
     .dataBlock {
@@ -313,6 +318,28 @@
 
     .floatingWindow {
         display: none;
-        /* Hide floating windows on mobile to avoid clutter */
+    }
+}
+
+@media (max-width: 480px) {
+    .title {
+        font-size: 2.5rem;
+    }
+
+    .title::before {
+        font-size: 0.8rem;
+    }
+
+    .subtitle {
+        font-size: 1.2rem;
+    }
+
+    .cta {
+        padding: 0.8rem 2rem;
+        font-size: 0.9rem;
+    }
+
+    .dataBlock {
+        font-size: 0.7rem;
     }
 }

@@ -65,3 +65,24 @@
 .button:hover {
     background: #2563eb;
 }
+
+@media (max-width: 768px) {
+    .contact {
+        padding: 4rem 0;
+    }
+
+    .title {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .formContainer {
+        padding: 0 1rem;
+    }
+
+    .input,
+    .textarea {
+        padding: 0.8rem;
+        font-size: 16px; /* Prevent iOS zoom on focus */
+    }
+}

@@ -187,7 +187,35 @@
     line-height: 1.6;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
+    .about {
+        padding: 4rem 0;
+    }
+
+    .container {
+        padding: 0 1rem;
+    }
+
+    .title {
+        font-size: 2rem;
+    }
+
+    .text p {
+        padding-left: 0;
+    }
+
+    .text h2 {
+        font-size: 1.4rem;
+    }
+
+    .text h3 {
+        font-size: 1.2rem;
+    }
+
+    .subTitle {
+        font-size: 1.2rem;
+    }
+
     .performanceItem {
         grid-template-columns: 1fr;
         gap: 0.5rem;
