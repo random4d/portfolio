@@ -12,6 +12,7 @@ export type Work = {
     thumbnail?: MicroCMSImage;
     tags: Tag[];
     url?: string;
+    date?: string; // ISO date string for sorting/display
 } & MicroCMSDate;
 
 export type About = {

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import styles from './Projects.module.css';
 import { Work } from '@/types/microcms';
+import { resolveThumbnailUrl } from '@/libs/thumbnail';
 
 type Props = {
     projects: Work[];
@@ -18,13 +19,30 @@ const Projects = ({ projects }: Props) => {
     const pathname = usePathname();
 
     const tagParam = searchParams.get('tag');
-    const effectiveFilterTag = tagParam === 'all' ? null : (tagParam || 'featured');
+    // Default to 'all' when no tag param is set
+    const effectiveFilterTag = !tagParam || tagParam === 'all' ? null : tagParam;
 
     const filteredProjects = useMemo(() => {
-        if (!effectiveFilterTag) return projects;
-        return projects.filter(project =>
-            project.tags?.some(tag => tag.name.toLowerCase() === effectiveFilterTag.toLowerCase())
-        );
+        // Sort by `date` field (falls back to publishedAt), newest first
+        const getSortTime = (p: Work) => {
+            const src = p.date || p.publishedAt;
+            return src ? new Date(src).getTime() : 0;
+        };
+        const byDateDesc = (a: Work, b: Work) => getSortTime(b) - getSortTime(a);
+
+        if (!effectiveFilterTag) {
+            // 'all' view: featured first (newest first), then others (newest first)
+            const isFeatured = (p: Work) =>
+                p.tags?.some(tag => tag.name.toLowerCase() === 'featured') ?? false;
+            const featured = projects.filter(isFeatured).sort(byDateDesc);
+            const others = projects.filter(p => !isFeatured(p)).sort(byDateDesc);
+            return [...featured, ...others];
+        }
+        return projects
+            .filter(project =>
+                project.tags?.some(tag => tag.name.toLowerCase() === effectiveFilterTag.toLowerCase())
+            )
+            .sort(byDateDesc);
     }, [projects, effectiveFilterTag]);
 
     const handleTagClick = (tagName: string) => {
@@ -50,7 +68,7 @@ const Projects = ({ projects }: Props) => {
 
                 <div className={styles.tagFilter}>
                     <button
-                        className={`${styles.filterButton} ${tagParam === 'all' ? styles.active : ''}`}
+                        className={`${styles.filterButton} ${!effectiveFilterTag ? styles.active : ''}`}
                         onClick={() => handleTagClick('all')}
                     >
                         All
@@ -58,7 +76,7 @@ const Projects = ({ projects }: Props) => {
                     {FIXED_TAGS.map(tagName => (
                         <button
                             key={tagName}
-                            className={`${styles.filterButton} ${effectiveFilterTag === tagName && tagParam !== 'all' ? styles.active : ''}`}
+                            className={`${styles.filterButton} ${effectiveFilterTag === tagName ? styles.active : ''}`}
                             onClick={() => handleTagClick(tagName)}
                         >
                             {tagName}
@@ -67,14 +85,16 @@ const Projects = ({ projects }: Props) => {
                 </div>
 
                 <div className={styles.grid}>
-                    {filteredProjects.map((project) => (
+                    {filteredProjects.map((project) => {
+                        const thumbUrl = resolveThumbnailUrl(project);
+                        return (
                         <div key={project.id} className={styles.card}>
                             <Link href={`/works/${project.title}`} className={styles.cardLink}>
                                 <div className={styles.image}>
-                                    {project.thumbnail ? (
+                                    {thumbUrl ? (
                                         /* eslint-disable-next-line @next/next/no-img-element */
                                         <img
-                                            src={`${project.thumbnail.url}?w=600&fm=webp&q=80`}
+                                            src={thumbUrl}
                                             alt={project.title}
                                             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                                             loading="lazy"
@@ -97,7 +117,8 @@ const Projects = ({ projects }: Props) => {
                                 ))}
                             </div>
                         </div>
-                    ))}
+                        );
+                    })}
                 </div>
 
                 {filteredProjects.length === 0 && (

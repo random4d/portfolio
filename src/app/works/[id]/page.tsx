@@ -3,6 +3,7 @@ import { Work } from '@/types/microcms';
 import Link from 'next/link';
 import styles from './page.module.css';
 import { notFound } from 'next/navigation';
+import { extractYouTubeId, getYouTubeThumbnail } from '@/libs/thumbnail';
 
 export const revalidate = 60;
 
@@ -48,16 +49,25 @@ export default async function WorkPage({ params }: Props) {
                     </div>
                 </header>
 
-                <div className={styles.thumbnailWrapper}>
-                    {work.thumbnail && (
-                        /* eslint-disable-next-line @next/next/no-img-element */
-                        <img
-                            src={`${work.thumbnail.url}?w=1200&fm=webp&q=85`}
-                            alt={work.title}
-                            className={styles.thumbnail}
-                        />
-                    )}
-                </div>
+                {(() => {
+                    const youtubeId = work.thumbnail ? null : extractYouTubeId(work.content);
+                    const heroUrl = work.thumbnail
+                        ? `${work.thumbnail.url}?w=1200&fm=webp&q=85`
+                        : youtubeId
+                            ? getYouTubeThumbnail(youtubeId)
+                            : null;
+                    if (!heroUrl) return null;
+                    return (
+                        <div className={styles.thumbnailWrapper}>
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                                src={heroUrl}
+                                alt={work.title}
+                                className={styles.thumbnail}
+                            />
+                        </div>
+                    );
+                })()}
 
                 <div
                     className={styles.content}
