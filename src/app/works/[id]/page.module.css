@@ -114,3 +114,27 @@
     border-radius: 4px;
     margin: 2rem 0;
 }
+
+@media (max-width: 768px) {
+    .article {
+        padding-top: 5rem;
+    }
+
+    .title {
+        font-size: 1.8rem;
+    }
+
+    .meta {
+        flex-wrap: wrap;
+        font-size: 0.8rem;
+    }
+
+    .tags {
+        flex-wrap: wrap;
+    }
+
+    .thumbnailWrapper {
+        max-height: 300px;
+        margin-bottom: 2rem;
+    }
+}

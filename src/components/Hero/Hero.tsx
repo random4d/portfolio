@@ -74,6 +74,7 @@ const Hero = ({ works }: Props) => {
             {glslItems.map((item) => (
                 <DraggableWindow
                     key={item.config.id}
+                    className={styles.windowWrapper}
                     initialTop={item.style.top as string}
                     initialLeft={item.style.left as string}
                     zIndex={item.style.zIndex as number}
@@ -102,10 +103,33 @@ const Hero = ({ works }: Props) => {
                 </DraggableWindow>
             ))}
 
+            {/* Mobile Hero Content */}
+            <div className={styles.mobileHero}>
+                <h1 className={styles.mobileTitle}>NYA</h1>
+                <p className={styles.mobileSubtitle}>Creative Developer</p>
+                <div className={styles.mobileWorks}>
+                    {works.slice(0, 3).map((work) => (
+                        <Link key={work.id} href={`/works/${work.title}`} className={styles.mobileWorkCard}>
+                            {work.thumbnail?.url && (
+                                /* eslint-disable-next-line @next/next/no-img-element */
+                                <img
+                                    src={`${work.thumbnail.url}?w=400&fm=webp&q=80`}
+                                    alt={work.title}
+                                    className={styles.mobileWorkImage}
+                                    loading="lazy"
+                                />
+                            )}
+                            <span className={styles.mobileWorkTitle}>+ {work.title}</span>
+                        </Link>
+                    ))}
+                </div>
+            </div>
+
             {/* Floating Works Windows */}
             {worksItems.map((item) => (
                 <DraggableWindow
                     key={item.work.id}
+                    className={styles.windowWrapper}
                     initialTop={item.style.top as string}
                     initialLeft={item.style.left as string}
                     zIndex={item.style.zIndex as number}
