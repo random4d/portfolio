@@ -1,4 +1,5 @@
-import Hero from '@/components/Hero/Hero';
+import { Suspense } from 'react';
+import Projects from '@/components/Projects/Projects';
 import { client } from '@/libs/client';
 import { Work } from '@/types/microcms';
 
@@ -10,13 +11,11 @@ export default async function Home() {
     queries: { limit: 30 }
   });
 
-  const featuredWorks = data.contents.filter(work =>
-    work.tags?.some(tag => tag.name === 'featured')
-  );
-
   return (
     <main>
-      <Hero works={featuredWorks} />
+      <Suspense>
+        <Projects projects={data.contents} />
+      </Suspense>
     </main>
   );
 }

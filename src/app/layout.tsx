@@ -1,23 +1,21 @@
-import { Space_Mono, Saira } from 'next/font/google';
+import { Inter, Geist_Mono } from 'next/font/google';
 import type { Metadata } from 'next';
 import './globals.css';
 import Header from '@/components/Header/Header';
 
-const spaceMono = Space_Mono({
-  weight: ['400', '700'],
+const inter = Inter({
   subsets: ['latin'],
-  variable: '--font-mono',
+  variable: '--font-inter',
 });
 
-const saira = Saira({
-  weight: ['400', '500', '600', '700'],
+const geistMono = Geist_Mono({
   subsets: ['latin'],
-  variable: '--font-menu', // Keeping name for compatibility, effectively Saira
+  variable: '--font-geist-mono',
 });
 
 export const metadata: Metadata = {
-  title: 'Portfolio',
-  description: 'My detailed portfolio site',
+  title: 'Ayumi Nagai',
+  description: 'Creative Developer / Media Artist',
 };
 
 export default function RootLayout({
@@ -26,7 +24,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ja" className={`${spaceMono.variable} ${saira.variable}`}>
+    <html lang="ja" className={`${inter.variable} ${geistMono.variable}`}>
       <body>
         <div className="background-layer" />
         <Header />

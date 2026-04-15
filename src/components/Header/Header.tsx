@@ -12,17 +12,12 @@ const Header = () => {
         const handleScroll = () => {
             setScrolled(window.scrollY > 50);
         };
-
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
     useEffect(() => {
-        if (menuOpen) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = '';
-        }
+        document.body.style.overflow = menuOpen ? 'hidden' : '';
         return () => { document.body.style.overflow = ''; };
     }, [menuOpen]);
 
@@ -32,10 +27,10 @@ const Header = () => {
         <header className={`${styles.header} ${scrolled ? styles.scrolled : ''}`}>
             <div className="container">
                 <nav className={styles.nav}>
+                    <Link href="/" className={styles.siteName}>Ayumi Nagai</Link>
                     <div className={styles.links}>
-                        <Link href="/" className={styles.link}>Top</Link>
-                        <Link href="/about" className={styles.link}>About</Link>
                         <Link href="/works" className={styles.link}>Works</Link>
+                        <Link href="/about" className={styles.link}>About</Link>
                         <Link href="/contact" className={styles.link}>Contact</Link>
                     </div>
                     <button
@@ -48,9 +43,8 @@ const Header = () => {
                         <span />
                     </button>
                     <div className={`${styles.mobileMenu} ${menuOpen ? styles.mobileMenuOpen : ''}`}>
-                        <Link href="/" className={styles.mobileLink} onClick={closeMenu}>Top</Link>
-                        <Link href="/about" className={styles.mobileLink} onClick={closeMenu}>About</Link>
                         <Link href="/works" className={styles.mobileLink} onClick={closeMenu}>Works</Link>
+                        <Link href="/about" className={styles.mobileLink} onClick={closeMenu}>About</Link>
                         <Link href="/contact" className={styles.mobileLink} onClick={closeMenu}>Contact</Link>
                     </div>
                 </nav>
