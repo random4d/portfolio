@@ -20,6 +20,21 @@ const formatDate = (dateString: string) => {
 
 const LOG_YEARS = [2025, 2024, 2023, 2022, 2021, 2020];
 
+/** Split rich HTML by <h1> tags into labeled sections */
+const parseContentSections = (html: string): { label: string; html: string }[] => {
+    const parts = html.split(/<h1[^>]*>(.*?)<\/h1>/i);
+    // parts: [before_first_h1, label1, content1, label2, content2, ...]
+    const sections: { label: string; html: string }[] = [];
+    for (let i = 1; i < parts.length; i += 2) {
+        const label = parts[i].trim();
+        const content = (parts[i + 1] || '').trim();
+        if (label) {
+            sections.push({ label, html: content });
+        }
+    }
+    return sections;
+};
+
 const About = ({ data, exhibitions, performances }: Props) => {
     if (!data) {
         return (
@@ -159,15 +174,16 @@ const About = ({ data, exhibitions, performances }: Props) => {
                         </div>
                     </section>
 
-                    {/* Content2 */}
-                    {data.content2 && (
-                        <section className={styles.section}>
+                    {/* Content2 — split by h1 into labeled sections */}
+                    {data.content2 && parseContentSections(data.content2).map((sec, i) => (
+                        <section key={i} className={styles.section}>
+                            <span className={styles.sectionLabel}>{sec.label.toUpperCase()}</span>
                             <div
                                 className={styles.bioContent}
-                                dangerouslySetInnerHTML={{ __html: data.content2 }}
+                                dangerouslySetInnerHTML={{ __html: sec.html }}
                             />
                         </section>
-                    )}
+                    ))}
                 </div>
             </div>
         </section>
