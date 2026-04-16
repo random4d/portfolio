@@ -8,7 +8,7 @@ export const revalidate = 60;
 export default async function Home() {
   const data = await client.getList<Work>({
     endpoint: 'works',
-    queries: { limit: 30 }
+    queries: { limit: 30, filters: 'publishedAt[exists]' }
   });
 
   return (

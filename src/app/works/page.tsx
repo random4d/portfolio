@@ -8,7 +8,7 @@ export const revalidate = 60; // Revalidate every 60 seconds
 export default async function WorksPage() {
     const data = await client.getList<Work>({
         endpoint: 'works',
-        queries: { limit: 100 },
+        queries: { limit: 100, filters: 'publishedAt[exists]' },
     });
 
     return (

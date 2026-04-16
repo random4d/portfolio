@@ -10,6 +10,7 @@ export const revalidate = 60;
 export async function generateStaticParams() {
     const { contents } = await client.getList<Work>({
         endpoint: 'works',
+        queries: { filters: 'publishedAt[exists]' },
     });
 
     return contents.map((work) => ({

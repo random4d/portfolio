@@ -11,12 +11,12 @@ export default async function AboutPage() {
 
     const exhibitionData = await client.getList<Exhibition>({
         endpoint: 'exhibition',
-        queries: { limit: 100 }
+        queries: { limit: 100, filters: 'publishedAt[exists]' }
     });
 
     const performanceData = await client.getList<Performance>({
         endpoint: 'performance',
-        queries: { limit: 100 }
+        queries: { limit: 100, filters: 'publishedAt[exists]' }
     });
 
     return (
