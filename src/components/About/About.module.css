@@ -1,174 +1,217 @@
 .about {
-    padding: 6rem 0 4rem;
+    padding: 5rem 0 4rem;
 }
 
 .container {
-    max-width: 900px;
+    max-width: 1000px;
     margin: 0 auto;
     padding: 0 48px;
 }
 
-.title {
-    font-size: 2rem;
-    margin-bottom: 2rem;
-    color: var(--text-color);
-    font-weight: 300;
+.inner {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 3.5rem;
 }
 
-.text {
-    font-size: 1rem;
+.loading {
     color: var(--text-secondary);
-    line-height: 2;
 }
 
-.text h1,
-.text h3 {
-    font-size: 1.2rem;
-    margin-top: 2.5rem;
-    margin-bottom: 1rem;
-    color: var(--text-color);
+/* Section */
+.section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.sectionLabel {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
     font-weight: 400;
+    color: var(--accent-color);
+    letter-spacing: 0.15em;
 }
 
-.text h2 {
-    font-size: 1.5rem;
-    margin-top: 3rem;
-    margin-bottom: 1.5rem;
-    color: var(--text-color);
+/* Biography rich text */
+.bioContent {
+    font-size: 0.9375rem;
+    color: var(--text-secondary);
+    line-height: 1.9;
+}
+
+.bioContent h1 {
+    font-size: 1.75rem;
     font-weight: 400;
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 0.5rem;
+    color: var(--text-color);
+    margin: 0 0 0.5rem;
+    letter-spacing: -0.02em;
 }
 
-.text p {
-    margin-bottom: 1.5rem;
-    line-height: 2;
+.bioContent h2 {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--text-color);
+    margin: 1.5rem 0 0.5rem;
 }
 
-.text a {
+.bioContent h3,
+.bioContent h4 {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-color);
+    margin: 1.25rem 0 0.5rem;
+}
+
+.bioContent p {
+    margin: 0 0 1rem;
+}
+
+.bioContent a {
     color: var(--accent-color);
     text-decoration: underline;
 }
 
-.text a:hover {
+.bioContent a:hover {
     opacity: 0.7;
 }
 
-.text ul,
-.text ol {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 1.5rem;
+.bioContent ul,
+.bioContent ol {
+    padding-left: 1.25rem;
+    margin: 0 0 1rem;
 }
 
-.text li {
-    margin-bottom: 0.5rem;
-    line-height: 1.6;
+.bioContent li {
+    margin-bottom: 0.25rem;
 }
 
-.text blockquote {
-    border-left: 2px solid var(--accent-color);
-    padding-left: 1.5rem;
-    margin: 2rem 0;
-    color: var(--text-secondary);
-    font-style: italic;
-}
-
-.text strong {
+.bioContent strong {
     color: var(--text-color);
     font-weight: 600;
 }
 
-.text img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 4px;
-    margin: 2rem 0;
-}
-
-.performanceSection {
-    margin-top: 4rem;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.subTitle {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    margin-bottom: 1.5rem;
-    color: var(--accent-color);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-}
-
-.performanceList {
+/* Entry list (Exhibition, Performance) */
+.entryList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 0;
 }
 
-.performanceItem {
+.entry {
     display: grid;
-    grid-template-columns: 120px 1fr;
+    grid-template-columns: 180px 1fr auto;
     gap: 1.5rem;
-    padding: 1rem 0;
+    padding: 0.875rem 0;
     border-bottom: 1px solid var(--border-color);
+    align-items: center;
 }
 
-.performanceItem:last-child {
+.entry:last-child {
     border-bottom: none;
 }
 
-.perfDate {
+.entryDate {
     font-family: var(--font-mono);
-    color: var(--text-secondary);
     font-size: 0.8125rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
 }
 
-.perfContent {
+.entryBody {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    gap: 0.1875rem;
+    min-width: 0;
 }
 
-.perfTitle {
+.entryTitle {
     font-size: 0.9375rem;
-    font-weight: 400;
+    font-weight: 500;
     color: var(--text-color);
+    text-decoration: none;
+    transition: color 0.2s ease;
 }
 
-.perfDesc {
-    font-size: 0.875rem;
+a.entryTitle:hover {
+    color: var(--accent-color);
+    opacity: 1;
+}
+
+.entryDesc {
+    font-size: 0.8125rem;
     color: var(--text-secondary);
     line-height: 1.6;
 }
 
-.dateText {
-    font-family: var(--font-mono);
-    font-variant-numeric: tabular-nums;
-    margin-right: 1rem;
+.entryWorkLink {
+    font-size: 0.8125rem;
+    color: var(--accent-color);
+    white-space: nowrap;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+}
+
+.entryWorkLink:hover {
+    opacity: 0.7;
+}
+
+/* Year tags */
+.yearTags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.yearTag {
+    padding: 0.3125rem 0.875rem;
+    border: 1px solid var(--border-color);
+    border-radius: 9999px;
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.yearTag:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+    opacity: 1;
 }
 
 @media (max-width: 768px) {
     .about {
-        padding: 5rem 0 3rem;
+        padding: 4rem 0 3rem;
     }
 
     .container {
         padding: 0 20px;
     }
 
-    .title {
-        font-size: 1.5rem;
+    .inner {
+        gap: 2.5rem;
     }
 
-    .text p {
-        padding-left: 0;
+    .bioContent h1 {
+        font-size: 1.375rem;
     }
 
-    .performanceItem {
+    .entry {
         grid-template-columns: 1fr;
         gap: 0.25rem;
+        padding: 0.75rem 0;
+    }
+
+    .entryDate {
+        font-size: 0.75rem;
+    }
+
+    .entryWorkLink {
+        margin-top: 0.25rem;
+        font-size: 0.75rem;
     }
 }

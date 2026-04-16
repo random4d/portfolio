@@ -18,13 +18,14 @@ const formatDate = (dateString: string) => {
     return `${year}.${month}.${day}`;
 };
 
+const LOG_YEARS = [2025, 2024, 2023, 2022, 2021, 2020];
+
 const About = ({ data, exhibitions, performances }: Props) => {
-    // Guard against missing data
     if (!data) {
         return (
-            <section id="about" className={styles.about}>
+            <section className={styles.about}>
                 <div className={styles.container}>
-                    <p style={{ color: '#888' }}>Loading...</p>
+                    <p className={styles.loading}>Loading...</p>
                 </div>
             </section>
         );
@@ -33,113 +34,141 @@ const About = ({ data, exhibitions, performances }: Props) => {
     const safeExhibitions = Array.isArray(exhibitions) ? exhibitions : [];
     const safePerformances = Array.isArray(performances) ? performances : [];
 
+    // Sort exhibitions by start_date desc
+    const sortedExhibitions = [...safeExhibitions].sort((a, b) => {
+        const aTime = a.start_date ? new Date(a.start_date).getTime() : 0;
+        const bTime = b.start_date ? new Date(b.start_date).getTime() : 0;
+        return bTime - aTime;
+    });
+
+    // Sort performances by event_date desc
+    const sortedPerformances = [...safePerformances].sort((a, b) => {
+        const aTime = a.event_date ? new Date(a.event_date).getTime() : 0;
+        const bTime = b.event_date ? new Date(b.event_date).getTime() : 0;
+        return bTime - aTime;
+    });
+
     return (
-        <section id="about" className={styles.about}>
+        <section className={styles.about}>
             <div className={styles.container}>
-                <div className={styles.content}>
-                    <h2 className={styles.title}>About Me</h2>
-                    <div
-                        className={styles.text}
-                        dangerouslySetInnerHTML={{ __html: data.content || '' }}
-                    />
-                </div>
-
-                {/* Exhibition Section */}
-                {safeExhibitions.length > 0 && (
-                    <div style={{ marginTop: '4rem' }}>
-                        <h3 className={styles.subTitle}>Exhibition</h3>
-                        <ul className={styles.legacyList}>
-                            {safeExhibitions.map((exh) => (
-                                <li key={exh.id} style={{ marginBottom: '0.5rem', listStyle: 'none', display: 'block' }}>
-                                    <span className={styles.dateText}>
-                                        {formatDate(exh.start_date)}
-                                        {exh.end_date && ` - ${formatDate(exh.end_date)}`}
-                                    </span>
-                                    <span style={{ marginRight: '1rem' }}>
-                                        {exh.exhibition_link ? (
-                                            <a href={exh.exhibition_link} target="_blank" rel="noopener noreferrer">
-                                                {exh.exhibition_title}
-                                            </a>
-                                        ) : (
-                                            exh.exhibition_title
-                                        )}
-                                    </span>
-                                    {exh.works_link && (
-                                        <Link href={`/works/${exh.works_link.title}`} style={{ marginLeft: '1rem', color: 'var(--accent-color)', textDecoration: 'none' }}>
-                                            ◆
-                                        </Link>
-                                    )}
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
-
-                {/* Performance Section */}
-                {safePerformances.length > 0 && (
-                    <div style={{ marginTop: '4rem' }}>
-                        <h3 className={styles.subTitle}>Performance</h3>
-                        <ul className={styles.legacyList}>
-                            {safePerformances.map((perf) => (
-                                <li key={perf.id} style={{ marginBottom: '0.5rem', listStyle: 'none', display: 'block' }}>
-                                    <span className={styles.dateText}>
-                                        {formatDate(perf.event_date)}
-                                    </span>
-                                    <span style={{ marginRight: '1rem' }}>
-                                        {perf.event_link ? (
-                                            <a href={perf.event_link} target="_blank" rel="noopener noreferrer">
-                                                {perf.event_title}
-                                            </a>
-                                        ) : (
-                                            perf.event_title
-                                        )}
-                                    </span>
-                                    <span style={{ color: '#bbb' }}>{perf.description}</span>
-                                    {perf.works_link && (
-                                        <Link href={`/works/${perf.works_link.title}`} style={{ marginLeft: '1rem', color: 'var(--accent-color)', textDecoration: 'none' }}>
-                                            ◆
-                                        </Link>
-                                    )}
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
-
-                {/* Log Section with Year Tags */}
-                <div style={{ marginTop: '4rem' }}>
-                    <h3 className={styles.subTitle}>Log</h3>
-                    <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-                        {[2025, 2024, 2023, 2022, 2021, 2020].map((year) => (
-                            <Link
-                                key={year}
-                                href={`/works?tag=${year}`}
-                                style={{
-                                    fontFamily: 'var(--font-mono)',
-                                    fontSize: '0.9rem',
-                                    padding: '0.5rem 1rem',
-                                    border: '1px solid var(--border-color)',
-                                    borderRadius: '20px',
-                                    color: '#888',
-                                    textDecoration: 'none',
-                                    transition: 'all 0.3s ease',
-                                }}
-                            >
-                                {year}
-                            </Link>
-                        ))}
-                    </div>
-                </div>
-
-                {/* Content2 Section */}
-                {data.content2 && (
-                    <div style={{ marginTop: '4rem' }}>
+                <div className={styles.inner}>
+                    {/* Biography */}
+                    <section className={styles.section}>
+                        <span className={styles.sectionLabel}>BIOGRAPHY</span>
                         <div
-                            className={styles.text}
-                            dangerouslySetInnerHTML={{ __html: data.content2 }}
+                            className={styles.bioContent}
+                            dangerouslySetInnerHTML={{ __html: data.content || '' }}
                         />
-                    </div>
-                )}
+                    </section>
+
+                    {/* Exhibition */}
+                    {sortedExhibitions.length > 0 && (
+                        <section className={styles.section}>
+                            <span className={styles.sectionLabel}>EXHIBITION</span>
+                            <ul className={styles.entryList}>
+                                {sortedExhibitions.map((exh) => (
+                                    <li key={exh.id} className={styles.entry}>
+                                        <span className={styles.entryDate}>
+                                            {formatDate(exh.start_date)}
+                                            {exh.end_date && ` – ${formatDate(exh.end_date)}`}
+                                        </span>
+                                        <div className={styles.entryBody}>
+                                            {exh.exhibition_link ? (
+                                                <a
+                                                    href={exh.exhibition_link}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className={styles.entryTitle}
+                                                >
+                                                    {exh.exhibition_title} ↗
+                                                </a>
+                                            ) : (
+                                                <span className={styles.entryTitle}>
+                                                    {exh.exhibition_title}
+                                                </span>
+                                            )}
+                                        </div>
+                                        {exh.works_link && (
+                                            <Link
+                                                href={`/works/${exh.works_link.title}`}
+                                                className={styles.entryWorkLink}
+                                            >
+                                                View work →
+                                            </Link>
+                                        )}
+                                    </li>
+                                ))}
+                            </ul>
+                        </section>
+                    )}
+
+                    {/* Performance */}
+                    {sortedPerformances.length > 0 && (
+                        <section className={styles.section}>
+                            <span className={styles.sectionLabel}>PERFORMANCE</span>
+                            <ul className={styles.entryList}>
+                                {sortedPerformances.map((perf) => (
+                                    <li key={perf.id} className={styles.entry}>
+                                        <span className={styles.entryDate}>
+                                            {formatDate(perf.event_date)}
+                                        </span>
+                                        <div className={styles.entryBody}>
+                                            {perf.event_link ? (
+                                                <a
+                                                    href={perf.event_link}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className={styles.entryTitle}
+                                                >
+                                                    {perf.event_title} ↗
+                                                </a>
+                                            ) : (
+                                                <span className={styles.entryTitle}>
+                                                    {perf.event_title}
+                                                </span>
+                                            )}
+                                            {perf.description && (
+                                                <span className={styles.entryDesc}>
+                                                    {perf.description}
+                                                </span>
+                                            )}
+                                        </div>
+                                        {perf.works_link && (
+                                            <Link
+                                                href={`/works/${perf.works_link.title}`}
+                                                className={styles.entryWorkLink}
+                                            >
+                                                View work →
+                                            </Link>
+                                        )}
+                                    </li>
+                                ))}
+                            </ul>
+                        </section>
+                    )}
+
+                    {/* Log */}
+                    <section className={styles.section}>
+                        <span className={styles.sectionLabel}>LOG</span>
+                        <div className={styles.yearTags}>
+                            {LOG_YEARS.map((year) => (
+                                <Link key={year} href={`/?tag=${year}`} className={styles.yearTag}>
+                                    {year}
+                                </Link>
+                            ))}
+                        </div>
+                    </section>
+
+                    {/* Content2 */}
+                    {data.content2 && (
+                        <section className={styles.section}>
+                            <div
+                                className={styles.bioContent}
+                                dangerouslySetInnerHTML={{ __html: data.content2 }}
+                            />
+                        </section>
+                    )}
+                </div>
             </div>
         </section>
     );
